@@ -32,8 +32,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 h1,h2,h3{font-family:var(--font);font-weight:200;line-height:1.08;letter-spacing:-.025em}
 em{font-style:italic;font-weight:200;color:var(--gold-2)}
 
-/* Announcement */
-.announce{background:var(--gold);color:var(--ink);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:9px 16px;font-weight:500}
 
 /* Nav */
 header{position:sticky;top:0;z-index:50;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
@@ -53,26 +51,59 @@ header.scrolled{background:rgba(13,12,10,.86);backdrop-filter:blur(14px);-webkit
 .badge.on{transform:scale(1)}
 .menu-btn{display:none}
 
-/* Hero */
-.hero{position:relative;min-height:calc(100vh - 112px);display:grid;grid-template-columns:1.05fr 1fr;gap:0;overflow:hidden}
-.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px max(32px, calc((100vw - 1320px)/2 + 32px))}
-.hero h1{font-size:clamp(46px,6.2vw,96px);margin:22px 0 28px}
-.hero p{max-width:440px;color:var(--muted);font-size:15px}
 .cta-row{display:flex;gap:18px;margin-top:42px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:12px;padding:17px 30px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;transition:all .4s var(--ease);border:1px solid var(--gold)}
 .btn-gold{background:var(--gold);color:var(--ink)}
 .btn-gold:hover{background:var(--gold-2);border-color:var(--gold-2)}
-.btn-ghost{color:var(--ivory);border-color:var(--line)}
+.btn-ghost{color:var(--ivory);border-color:rgba(243,236,224,.3)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold-2)}
 .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .4s var(--ease)}
 .btn:hover svg{transform:translateX(4px)}
-.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:28px;border-top:1px solid var(--line)}
-.hero-stats b{display:block;font-weight:200;font-size:36px;color:var(--gold-2);line-height:1.1;letter-spacing:-.02em}
-.hero-stats span{font-size:12px;color:var(--muted);letter-spacing:.04em}
-.hero-media{position:relative;overflow:hidden}
-.hero-media img{transform:scale(1.08);animation:heroZoom 2.4s var(--ease) forwards}
-@keyframes heroZoom{to{transform:scale(1)}}
-.hero-media::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ink) 0%,rgba(13,12,10,0) 30%);z-index:1}
+/* Hero slider */
+.hero{position:relative;height:calc(100vh - 78px);min-height:600px;max-height:980px;overflow:hidden;padding:0;background:var(--ink)}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .9s var(--ease),visibility .9s}
+.slide.active{opacity:1;visibility:visible;z-index:1}
+.slide>img{position:absolute;inset:0;transform:scale(1.15);transition:transform 5.5s cubic-bezier(.2,.6,.3,1)}
+.slide.active>img{transform:scale(1.02)}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,7,.95) 0%,rgba(10,9,7,.78) 35%,rgba(10,9,7,.15) 72%),linear-gradient(0deg,rgba(10,9,7,.9) 0%,rgba(10,9,7,0) 38%)}
+.s-num{position:absolute;z-index:1;right:4vw;top:50%;font-size:clamp(160px,26vw,420px);font-weight:600;line-height:1;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(230,207,159,.22);transform:translate(60px,-50%);opacity:0;transition:opacity .5s,transform .5s;pointer-events:none}
+.slide.active .s-num{opacity:1;transform:translate(0,-50%);transition:opacity 1.2s .1s var(--ease),transform 1.6s .1s var(--ease)}
+.slide-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;padding-bottom:80px}
+.slide-content>*{max-width:760px}
+.s-eyebrow{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:9px 18px 9px 14px;border:1px solid rgba(201,169,110,.55);background:rgba(201,169,110,.12);backdrop-filter:blur(6px);border-radius:40px;font-size:11px;font-weight:600;letter-spacing:.24em;color:var(--gold-2);opacity:0;transform:translateY(-14px) scale(.96);transition:opacity .4s,transform .4s}
+.s-eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(201,169,110,.25);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(201,169,110,0)}}
+.hero .h1{font-size:clamp(46px,6.3vw,104px);font-weight:500;letter-spacing:-.035em;line-height:1.02;margin:26px 0 26px;color:#fffaf0;text-shadow:0 6px 40px rgba(0,0,0,.55)}
+.hero .h1 em{font-weight:300}
+.hero .h1 .ln{display:block;overflow:hidden;padding:0 .04em .1em 0}
+.hero .h1 .w{display:inline-block;transform:translateY(105%) rotate(6deg);opacity:0;filter:blur(8px);transform-origin:left bottom;transition:transform .35s,opacity .35s,filter .35s}
+.slide-content p{max-width:520px;color:#efe7d9;font-size:17px;font-weight:400;line-height:1.7;text-shadow:0 2px 20px rgba(0,0,0,.6);padding-left:18px;border-left:2px solid var(--gold);opacity:0;transform:translateX(-30px);transition:opacity .35s,transform .35s}
+.hero .cta-row{margin-top:36px;opacity:0;transform:translateY(24px);transition:opacity .35s,transform .35s}
+.slide.active .s-eyebrow{opacity:1;transform:none;transition:opacity .7s .15s var(--ease),transform .7s .15s var(--ease)}
+.slide.active .h1 .w{transform:none;opacity:1;filter:none;transition:transform .9s var(--ease),opacity .7s,filter .7s;transition-delay:calc(.25s + var(--d) * .07s)}
+.slide.active .slide-content p{opacity:1;transform:none;transition:opacity .8s .65s var(--ease),transform .8s .65s var(--ease)}
+.slide.active .cta-row{opacity:1;transform:none;transition:opacity .8s .8s var(--ease),transform .8s .8s var(--ease)}
+.hero em{background:linear-gradient(100deg,var(--gold) 20%,#fff6dd 40%,var(--gold-2) 60%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite;text-shadow:none}
+@keyframes shine{from{background-position:120% 0}to{background-position:-130% 0}}
+.slide .hero-tag{bottom:130px;opacity:0;transform:translateY(20px);transition:opacity .35s,transform .35s}
+.slide.active .hero-tag{opacity:1;transform:none;transition:opacity .8s 1s var(--ease),transform .8s 1s var(--ease)}
+.s-controls{position:absolute;z-index:5;left:0;right:0;bottom:36px}
+.s-controls .wrap{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.s-count{font-size:13px;letter-spacing:.2em;color:var(--muted);margin-bottom:14px}
+.s-count b{color:var(--ivory);font-weight:400}
+.segs{display:flex;gap:14px;flex:1;max-width:720px}
+.seg{flex:1;text-align:left;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);transition:color .4s;padding-top:14px;position:relative}
+.seg::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:rgba(243,236,224,.2)}
+.seg i{position:absolute;top:0;left:0;height:1px;width:0;background:var(--gold)}
+.seg.active{color:var(--ivory)}
+.seg.active i{animation:fill var(--dur,4.2s) linear forwards}
+.hero.paused .seg.active i{animation-play-state:paused}
+@keyframes fill{to{width:100%}}
+.s-arrows{display:flex;gap:10px}
+.s-arrow{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:all .35s var(--ease);background:rgba(13,12,10,.35);backdrop-filter:blur(6px)}
+.s-arrow:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+.s-arrow svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5}
+@media (prefers-reduced-motion:reduce){.slide>img,.slide.active>img{transform:none;transition:none}.hero em,.s-eyebrow::before{animation:none}}
 .hero-tag{position:absolute;z-index:2;right:36px;bottom:36px;background:rgba(13,12,10,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);padding:18px 22px;display:flex;gap:16px;align-items:center;max-width:300px}
 .hero-tag .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(201,169,110,.18);flex:none}
 .hero-tag p{font-size:13px;color:var(--ivory);margin:0;font-weight:400}
@@ -230,8 +261,8 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:90px 0 3
 .foot-bottom{display:flex;justify-content:space-between;margin-top:70px;padding-top:26px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);gap:20px;flex-wrap:wrap}
 
 /* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,140%);background:var(--ivory);color:var(--ink);padding:16px 26px;font-size:13px;font-weight:400;z-index:100;transition:transform .5s var(--ease);display:flex;gap:12px;align-items:center;box-shadow:0 20px 50px rgba(0,0,0,.4);white-space:nowrap}
-.toast.show{transform:translate(-50%,0)}
+.toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,calc(100% + 60px));visibility:hidden;background:var(--ivory);color:var(--ink);padding:16px 26px;font-size:13px;font-weight:400;z-index:100;transition:transform .5s var(--ease);display:flex;gap:12px;align-items:center;box-shadow:0 20px 50px rgba(0,0,0,.4);white-space:nowrap}
+.toast.show{transform:translate(-50%,0);visibility:visible}
 .toast::before{content:"✦";color:var(--gold)}
 
 /* Mobile nav */
@@ -260,13 +291,21 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:90px 0 3
   .logo small{font-size:7px;letter-spacing:.4em}
   .nav-actions{gap:16px}
   .nav-actions .hide-m{display:none}
-  .hero{grid-template-columns:1fr;min-height:auto}
-  .hero-media{height:62vh;order:-1}
-  .hero-media::before{background:linear-gradient(0deg,var(--ink) 0%,rgba(13,12,10,0) 40%)}
-  .hero-copy{padding:20px 16px 70px}
-  .hero-tag{right:16px;left:16px;bottom:16px;max-width:none}
-  .hero-stats{gap:28px}
-  .hero-stats b{font-size:28px}
+  .hero{height:calc(100svh - 66px);min-height:560px}
+  .slide::after{background:linear-gradient(0deg,rgba(13,12,10,.95) 0%,rgba(13,12,10,.55) 55%,rgba(13,12,10,.15) 100%)}
+  .slide-content{justify-content:flex-end;padding-bottom:130px}
+  .hero .h1{margin:18px 0 18px}
+  .slide-content p{font-size:14px}
+  .slide .hero-tag{display:none}
+  .s-controls{bottom:24px}
+  .seg span{display:none}
+  .s-arrow{width:44px;height:44px}
+  .hero .btn{padding:14px 18px;font-size:10px}
+  .hero .cta-row{gap:10px;margin-top:26px}
+  .hero .h1{font-size:clamp(38px,11vw,52px)}
+  .slide-content p{font-size:15px;padding-left:14px}
+  .s-num{font-size:44vw;top:30%;right:-2vw}
+  .s-eyebrow{font-size:10px;letter-spacing:.18em}
   section{padding:90px 0}
   .grid{grid-template-columns:repeat(2,1fr);gap:30px 12px}
   .card-body h3{font-size:15px}
@@ -288,7 +327,6 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:90px 0 3
 </head>
 <body>
 
-<div class="announce">Premium service · Trusted brand · GIA-certified diamonds &amp; luxury watches</div>
 
 <header id="header">
   <div class="wrap nav">
@@ -320,27 +358,62 @@ footer{background:var(--ink-2);border-top:1px solid var(--line);padding:90px 0 3
   <a href="#appointment" onclick="toggleDrawer(false)">Appointment</a>
 </div>
 
-<!-- HERO -->
-<section class="hero" style="padding:0">
-  <div class="hero-copy">
-    <span class="eyebrow reveal">Premium Service · Trusted Brand</span>
-    <h1 class="reveal">For moments<br>that <em>hold the light.</em></h1>
-    <p class="reveal">Fine diamond jewelry and Rolex timepieces, chosen with care and delivered with a premium service you can trust. Pieces made to stay with you for a lifetime.</p>
-    <div class="cta-row reveal">
-      <a href="#products" class="btn btn-gold">Explore the Collection <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a href="#appointment" class="btn btn-ghost">Book a Visit</a>
+<!-- HERO SLIDER -->
+<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Featured">
+  <div class="slide active" aria-roledescription="slide" aria-label="1 of 4">
+    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=2000&q=80" alt="Diamond solitaire ring in a black box">
+    <span class="s-num" aria-hidden="true">01</span>
+    <div class="wrap slide-content">
+      <span class="eyebrow s-eyebrow">Premium Service · Trusted Brand</span>
+      <h1 class="h1"><span class="ln"><span>For moments</span></span><span class="ln"><span>that <em>hold the light.</em></span></span></h1>
+      <p>Hand-selected, certified diamonds set by master jewelers. Pieces made to stay with you for a lifetime.</p>
+      <div class="cta-row"><a href="#products" class="btn btn-gold" data-go="all">Explore the Collection <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#appointment" class="btn btn-ghost">Book a Visit</a></div>
     </div>
-    <div class="hero-stats reveal">
-      <div><b>5★</b><span>Premium service</span></div>
-      <div><b>12K+</b><span>Happy couples</span></div>
-      <div><b>100%</b><span>Authentic &amp; certified</span></div>
-    </div>
+    <div class="hero-tag"><span class="dot"></span><p>Solitaire Aurora — 1.02 ct<small>D color · VVS1 · Platinum</small></p></div>
   </div>
-  <div class="hero-media">
-    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1600&q=80" alt="Diamond solitaire ring in a black box">
-    <div class="hero-tag">
-      <span class="dot"></span>
-      <p>Solitaire Aurora — 1.02 ct<small>D color · VVS1 · Platinum</small></p>
+  <div class="slide" aria-roledescription="slide" aria-label="2 of 4">
+    <img src="https://images.unsplash.com/photo-1730757679771-b53e798846cf?auto=format&fit=crop&w=2000&q=80" alt="Blue and gold Rolex watch on a stand" loading="lazy">
+    <span class="s-num" aria-hidden="true">02</span>
+    <div class="wrap slide-content">
+      <span class="eyebrow s-eyebrow">Men's Watches</span>
+      <h2 class="h1"><span class="ln"><span>Rolex for the</span></span><span class="ln"><span><em>modern gentleman.</em></span></span></h2>
+      <p>Iconic Rolex timepieces, inspected by our specialists and delivered with original box and papers.</p>
+      <div class="cta-row"><a href="#watches" class="btn btn-gold">Discover Watches <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#appointment" class="btn btn-ghost">Private Viewing</a></div>
+    </div>
+    <div class="hero-tag"><span class="dot"></span><p>Rolex Submariner<small>Two-tone · Blue dial</small></p></div>
+  </div>
+  <div class="slide" aria-roledescription="slide" aria-label="3 of 4">
+    <img src="https://images.unsplash.com/photo-1762505464529-1a37df13674f?auto=format&fit=crop&w=2000&q=80" alt="Hands wearing sparkling diamond rings" loading="lazy">
+    <span class="s-num" aria-hidden="true">03</span>
+    <div class="wrap slide-content">
+      <span class="eyebrow s-eyebrow">Engagement &amp; Bridal</span>
+      <h2 class="h1"><span class="ln"><span>The ring that</span></span><span class="ln"><span>gets the <em>“Yes.”</em></span></span></h2>
+      <p>Solitaires, halos and eternity bands, with complimentary resizing within 30 days.</p>
+      <div class="cta-row"><a href="#products" class="btn btn-gold" data-go="rings">Shop Rings <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#guide" class="btn btn-ghost">Diamond Guide</a></div>
+    </div>
+    <div class="hero-tag"><span class="dot"></span><p>Proposal Service<small>Free resizing · 30 days</small></p></div>
+  </div>
+  <div class="slide" aria-roledescription="slide" aria-label="4 of 4">
+    <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=2000&q=80" alt="Woman wearing a silver necklace" loading="lazy">
+    <span class="s-num" aria-hidden="true">04</span>
+    <div class="wrap slide-content">
+      <span class="eyebrow s-eyebrow">Necklaces</span>
+      <h2 class="h1"><span class="ln"><span>Elegance, worn</span></span><span class="ln"><span><em>close to the heart.</em></span></span></h2>
+      <p>Pendants, rivières and pearls to celebrate every chapter of your story.</p>
+      <div class="cta-row"><a href="#products" class="btn btn-gold" data-go="necklaces">Shop Necklaces <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a href="#appointment" class="btn btn-ghost">Book a Visit</a></div>
+    </div>
+    <div class="hero-tag"><span class="dot"></span><p>Céleste Pendant<small>Sapphire &amp; diamond · White gold</small></p></div>
+  </div>
+  <div class="s-controls">
+    <div class="wrap">
+      <div style="flex:1;max-width:720px">
+        <div class="s-count"><b id="sCur">01</b> / 04</div>
+        <div class="segs"><button class="seg active" data-i="0" aria-label="Go to slide 1"><i></i><span>Diamonds</span></button><button class="seg" data-i="1" aria-label="Go to slide 2"><i></i><span>Watches</span></button><button class="seg" data-i="2" aria-label="Go to slide 3"><i></i><span>Engagement</span></button><button class="seg" data-i="3" aria-label="Go to slide 4"><i></i><span>Necklaces</span></button></div>
+      </div>
+      <div class="s-arrows">
+        <button class="s-arrow" id="sPrev" aria-label="Previous slide"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="s-arrow" id="sNext" aria-label="Next slide"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
     </div>
   </div>
 </section>
@@ -610,6 +683,32 @@ function subscribe(){
   if(!/^\S+@\S+\.\S+$/.test(m.value)){showToast("Please enter a valid email");return}
   m.value="";showToast("You're subscribed");
 }
+
+// Hero slider
+(function(){let d=0;document.querySelectorAll(".hero .slide").forEach(sl=>{d=0;sl.querySelectorAll(".h1 .ln>span").forEach(sp=>{
+  const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(t=>{if(!t)return;if(/^\s+$/.test(t)){f.append(t)}else{const w=document.createElement("span");w.className="w";w.style.setProperty("--d",d++);w.textContent=t;f.append(w)}});c.replaceWith(f)}else walk(c)})};walk(sp)})})})();
+(function(){
+  const hero=document.getElementById("hero"), slides=[...hero.querySelectorAll(".slide")], segs=[...hero.querySelectorAll(".seg")];
+  const DUR=4200; hero.style.setProperty("--dur",DUR+"ms");
+  let cur=0;
+  function go(n){
+    n=(n+slides.length)%slides.length; if(n===cur) return;
+    slides[cur].classList.remove("active"); segs[cur].classList.remove("active");
+    cur=n;
+    slides[cur].classList.add("active"); segs[cur].classList.add("active");
+    document.getElementById("sCur").textContent=String(cur+1).padStart(2,"0");
+  }
+  segs.forEach((s,i)=>{s.addEventListener("click",()=>go(i)); s.querySelector("i").addEventListener("animationend",()=>go(cur+1))});
+  document.getElementById("sNext").onclick=()=>go(cur+1);
+  document.getElementById("sPrev").onclick=()=>go(cur-1);
+  hero.addEventListener("mouseenter",()=>hero.classList.add("paused"));
+  hero.addEventListener("mouseleave",()=>hero.classList.remove("paused"));
+  document.addEventListener("visibilitychange",()=>hero.classList.toggle("paused",document.hidden));
+  addEventListener("keydown",e=>{const r=hero.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight) return; if(e.key==="ArrowRight")go(cur+1); if(e.key==="ArrowLeft")go(cur-1)});
+  let x0=null;
+  hero.addEventListener("touchstart",e=>{x0=e.touches[0].clientX},{passive:true});
+  hero.addEventListener("touchend",e=>{if(x0===null)return; const dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>45) go(cur+(dx<0?1:-1)); x0=null});
+})();
 
 // Drawer
 function toggleDrawer(o){document.getElementById("drawer").classList.toggle("open",o)}
